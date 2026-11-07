@@ -1,12 +1,12 @@
 # Cinderluna Open-Source Windows Software Catalog
 
-Public, transparent catalog and cryptographic integrity manifest for the **61 curated open-source Windows x64 applications** available on [Cinderluna](https://cinderluna.com).
+Public, transparent catalog and cryptographic integrity manifest for the curated open-source Windows x64 applications available on [Cinderluna](https://cinderluna.com).
 
 ## Purpose
 
 1. **Security & Cryptographic Transparency**: Every open-source installer distributed through Cinderluna is pulled directly from its official upstream release URL. This repository serves as a verifiable public ledger of upstream URLs, byte sizes, and SHA-256 digests.
 2. **Automated Verification CI**: A scheduled GitHub Actions workflow continuously streams installer binaries from upstream servers, computes SHA-256 digests, and validates file sizes to detect upstream tampering, silent updates, or broken links.
-3. **Decoupled Architecture**: Keeps catalog verification on public GitHub Actions runners with **zero secrets**, allowing community auditability while `cinderluna-api` operates privately.
+3. **Auditable & Independent**: Operates completely in the open with zero private dependencies or secrets, allowing users and developers to inspect and audit installer provenance independently.
 
 ---
 
@@ -24,6 +24,7 @@ The primary manifest is [`manifests/apps.json`](manifests/apps.json). Each appli
   "taskId": "write-debug-code",
   "taskLabel": "Write, refactor and debug code across languages",
   "spdx": "MIT",
+  "licenseUrl": "https://github.com/microsoft/vscode/blob/main/LICENSE.txt",
   "websiteUrl": "https://code.visualstudio.com",
   "sourceUrl": "https://github.com/microsoft/vscode",
   "summary": "Extensible code editor with built-in Git, debugging, terminal, and language intelligence.",
@@ -44,7 +45,7 @@ The primary manifest is [`manifests/apps.json`](manifests/apps.json). Each appli
 You can verify any or all apps locally with Node.js 24+:
 
 ```bash
-# Verify all 61 installers
+# Verify all installers
 npm run verify
 
 # Verify specific applications
@@ -63,18 +64,6 @@ A verification report is written to [`manifests/verification-report.json`](manif
 The workflow at [`.github/workflows/verify-catalog.yml`](.github/workflows/verify-catalog.yml) runs:
 - **Weekly Schedule**: Every Sunday at midnight UTC.
 - **Manual Trigger (`workflow_dispatch`)**: Can be triggered manually on demand via GitHub Actions UI or `gh workflow run verify-catalog.yml`.
-
----
-
-## Integration with Cinderluna API
-
-`cinderluna-api` synchronizes verified manifests from this repository using:
-
-```bash
-pnpm catalog:pull
-```
-
-This updates `src/oss-catalog.ts` in `cinderluna-api` and seeds the live Neon Serverless Postgres database.
 
 ---
 
