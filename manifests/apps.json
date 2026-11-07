@@ -621,12 +621,12 @@
     "sourceUrl": "https://github.com/files-community/Files",
     "summary": "Modern file manager for Windows with multiple tabs, dual-pane view, column view, and file tags.",
     "description": "Files is a modern file explorer built for Windows featuring multi-tab navigation, dual-pane views, Miller columns, color-coded tags, cloud drive integration, and archive inspection.",
-    "version": "4.0.28.0",
+    "version": "4.3.0.0",
     "publishedAt": "2026-10-25T12:00:00.000Z",
-    "installerUrl": "https://files.community/appinstallers/Files.stable.appinstaller",
-    "installerFilename": "Files.stable.appinstaller",
-    "installerSize": 2535,
-    "sha256": "f93768c67b36e47d145a1f886d2b29d1975b5c2f9e8b9a6308940324c3663a7e",
+    "installerUrl": "https://cdn.files.community/files/stable/Files.Package.appinstaller",
+    "installerFilename": "Files.Package.appinstaller",
+    "installerSize": 2582,
+    "sha256": "8d219d7c30d6c2f890c368f9c008abc07e9f94b177050707a5c2f20a086d4033",
     "licenseUrl": "https://github.com/files-community/Files/blob/main/LICENSE"
   },
   {

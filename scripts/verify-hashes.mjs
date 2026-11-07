@@ -27,7 +27,7 @@ const selectedSlugs = process.argv
   .filter((arg) => !arg.startsWith("--"));
 
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) CinderlunaCatalogVerifier/1.0 (+https://github.com/CinderLuna/cinderluna-catalog)";
+  "Wget/1.21.4 (compatible; CinderlunaCatalogVerifier/1.0; +https://github.com/CinderLuna/cinderluna-catalog)";
 
 async function hashStream(stream) {
   const hash = createHash("sha256");
