@@ -623,10 +623,10 @@
     "description": "Files is a modern file explorer built for Windows featuring multi-tab navigation, dual-pane views, Miller columns, color-coded tags, cloud drive integration, and archive inspection.",
     "version": "4.3.0.0",
     "publishedAt": "2026-10-25T12:00:00.000Z",
-    "installerUrl": "https://cdn.files.community/files/stable/Files.Package.appinstaller",
-    "installerFilename": "Files.Package.appinstaller",
-    "installerSize": 2582,
-    "sha256": "8d219d7c30d6c2f890c368f9c008abc07e9f94b177050707a5c2f20a086d4033",
+    "installerUrl": "https://cdn.files.community/files/stable/Files.Package_4.3.0.0_Test/Files.Package_4.3.0.0_x64_arm64.msixbundle",
+    "installerFilename": "Files.Package_4.3.0.0_x64_arm64.msixbundle",
+    "installerSize": 60607376,
+    "sha256": "385d6088856b0a47d5dd102c964908a0f8a70f64a8da0d670b4ecf0f1a4c50f9",
     "licenseUrl": "https://github.com/files-community/Files/blob/main/LICENSE"
   },
   {
