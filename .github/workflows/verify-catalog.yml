@@ -1,0 +1,57 @@
+name: Verify Catalog Upstream Hashes
+
+on:
+  workflow_dispatch:
+    inputs:
+      update_manifest:
+        description: "Commit updated manifests/apps.json back to repo"
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    # Run once a week at midnight UTC on Sundays
+    - cron: "0 0 * * 0"
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    name: Stream Verify All 61 Windows Installers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Verify Installers & Compute SHA-256 Hashes
+        run: |
+          if [ "${{ github.event.inputs.update_manifest }}" = "false" ]; then
+            node scripts/verify-hashes.mjs
+          else
+            node scripts/verify-hashes.mjs --update-manifest
+          fi
+
+      - name: Upload Verification Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-report
+          path: manifests/verification-report.json
+
+      - name: Commit & Push Verified Manifest
+        if: github.ref == 'refs/heads/main' && github.event.inputs.update_manifest != 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain manifests/apps.json)" ]; then
+            git add manifests/apps.json manifests/verification-report.json
+            git commit -m "chore(catalog): automated weekly SHA-256 and size verification"
+            git push
+          else
+            echo "No changes in manifests/apps.json."
+          fi

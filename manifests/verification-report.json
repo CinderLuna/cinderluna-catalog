@@ -1,0 +1,40 @@
+{
+  "verifiedAt": "2026-11-07T16:27:59.602Z",
+  "totalVerified": 2,
+  "successCount": 2,
+  "failureCount": 0,
+  "results": [
+    {
+      "slug": "7-zip",
+      "name": "7-Zip",
+      "version": "24.09",
+      "status": "success",
+      "installerUrl": "https://www.7-zip.org/a/7z2409-x64.exe",
+      "finalUrl": "https://release-assets.githubusercontent.com/github-production-release-asset/466446150/1645817e-3677-4207-93ff-e62de7e147be?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-11-07T17%3A05%3A25Z&rscd=attachment%3B+filename%3D7z2409-x64.exe&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-11-07T16%3A04%3A53Z&ske=2026-11-07T17%3A05%3A25Z&sks=b&skv=2018-11-09&sig=lSCl2g32DnYy07e%2B%2FrSKj8sxhHQmUDK3gGOJgRMz6Ww%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5NDA2OTE3OCwibmJmIjoxNzk0MDY4ODc4LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.AiRrbHQp87CTaVgGX3uk3_pkdAos--t_bgJD5zxdfxM&response-content-disposition=attachment%3B%20filename%3D7z2409-x64.exe&response-content-type=application%2Foctet-stream",
+      "expectedSize": 1637343,
+      "actualSize": 1637343,
+      "expectedSha256": "bdd1a33de78618d16ee4ce148b849932c05d0015491c34887846d431d29f308e",
+      "actualSha256": "bdd1a33de78618d16ee4ce148b849932c05d0015491c34887846d431d29f308e",
+      "hashMatch": true,
+      "sizeMatch": true,
+      "elapsedMs": 3046,
+      "verifiedAt": "2026-11-07T16:27:59.237Z"
+    },
+    {
+      "slug": "files",
+      "name": "Files",
+      "version": "4.0.28.0",
+      "status": "success",
+      "installerUrl": "https://files.community/appinstallers/Files.stable.appinstaller",
+      "finalUrl": "https://files.community/appinstallers/Files.stable.appinstaller",
+      "expectedSize": 2535,
+      "actualSize": 2535,
+      "expectedSha256": "f93768c67b36e47d145a1f886d2b29d1975b5c2f9e8b9a6308940324c3663a7e",
+      "actualSha256": "f93768c67b36e47d145a1f886d2b29d1975b5c2f9e8b9a6308940324c3663a7e",
+      "hashMatch": true,
+      "sizeMatch": true,
+      "elapsedMs": 363,
+      "verifiedAt": "2026-11-07T16:27:59.602Z"
+    }
+  ]
+}

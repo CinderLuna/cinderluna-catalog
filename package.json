@@ -1,0 +1,23 @@
+{
+  "name": "cinderluna-catalog",
+  "version": "1.0.0",
+  "description": "Public transparency catalog and cryptographic verification of Cinderluna open-source Windows installers",
+  "type": "module",
+  "scripts": {
+    "verify": "node scripts/verify-hashes.mjs",
+    "verify:update": "node scripts/verify-hashes.mjs --update-manifest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CinderLuna/cinderluna-catalog.git"
+  },
+  "keywords": [
+    "cinderluna",
+    "windows",
+    "catalog",
+    "sha256",
+    "open-source"
+  ],
+  "author": "Cinderluna",
+  "license": "MIT"
+}
