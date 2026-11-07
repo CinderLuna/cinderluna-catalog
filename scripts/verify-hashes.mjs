@@ -26,8 +26,11 @@ const selectedSlugs = process.argv
   .slice(2)
   .filter((arg) => !arg.startsWith("--"));
 
-const USER_AGENT =
-  "Wget/1.21.4 (compatible; CinderlunaCatalogVerifier/1.0; +https://github.com/CinderLuna/cinderluna-catalog)";
+const PRIMARY_USER_AGENT = "curl/8.5.0";
+const FALLBACK_USER_AGENTS = [
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+  "Microsoft-Delivery-Optimization/10.0",
+];
 
 async function hashStream(stream) {
   const hash = createHash("sha256");
@@ -44,23 +47,45 @@ async function hashStream(stream) {
   };
 }
 
+async function fetchWithRetry(url) {
+  const agents = [PRIMARY_USER_AGENT, ...FALLBACK_USER_AGENTS];
+  let lastError;
+
+  for (const agent of agents) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": agent,
+          Accept: "*/*",
+        },
+        redirect: "follow",
+      });
+
+      if (res.status === 403 || res.status === 401) {
+        lastError = new Error(`HTTP ${res.status} ${res.statusText} with User-Agent ${agent}`);
+        continue;
+      }
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+
+      return res;
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  throw lastError;
+}
+
 async function verifyApp(app) {
   const startTime = Date.now();
   console.log(`\n[VERIFY] Checking ${app.name} (${app.slug})...`);
   console.log(`         URL: ${app.installerUrl}`);
 
   try {
-    const res = await fetch(app.installerUrl, {
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "*/*",
-      },
-      redirect: "follow",
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    }
+    const res = await fetchWithRetry(app.installerUrl);
 
     if (!res.body) {
       throw new Error("No response body received");
