@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   verify:
-    name: Stream Verify All 61 Windows Installers
+    name: Stream Verify All 60 Windows Installers
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
