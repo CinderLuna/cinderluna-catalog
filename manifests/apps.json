@@ -609,27 +609,6 @@
     "licenseUrl": "https://github.com/microsoft/PowerToys/blob/main/LICENSE"
   },
   {
-    "id": "app_files",
-    "slug": "files",
-    "name": "Files",
-    "publisherName": "Files Community",
-    "categoryId": "everyday-utilities",
-    "taskId": "browse-files-tabs",
-    "taskLabel": "Organize files with tabs, columns and tags",
-    "spdx": "MIT",
-    "websiteUrl": "https://files.community",
-    "sourceUrl": "https://github.com/files-community/Files",
-    "summary": "Modern file manager for Windows with multiple tabs, dual-pane view, column view, and file tags.",
-    "description": "Files is a modern file explorer built for Windows featuring multi-tab navigation, dual-pane views, Miller columns, color-coded tags, cloud drive integration, and archive inspection.",
-    "version": "4.3.0.0",
-    "publishedAt": "2026-10-25T12:00:00.000Z",
-    "installerUrl": "https://cdn.files.community/files/stable/Files.Package_4.3.0.0_Test/Files.Package_4.3.0.0_x64_arm64.msixbundle",
-    "installerFilename": "Files.Package_4.3.0.0_x64_arm64.msixbundle",
-    "installerSize": 60607376,
-    "sha256": "385d6088856b0a47d5dd102c964908a0f8a70f64a8da0d670b4ecf0f1a4c50f9",
-    "licenseUrl": "https://github.com/files-community/Files/blob/main/LICENSE"
-  },
-  {
     "id": "app_bleachbit",
     "slug": "bleachbit",
     "name": "BleachBit",
