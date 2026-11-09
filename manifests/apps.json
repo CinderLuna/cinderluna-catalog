@@ -1176,27 +1176,6 @@
     "licenseUrl": "https://gitlab.com/wireshark/wireshark/-/blob/master/COPYING"
   },
   {
-    "id": "app_bitwarden",
-    "slug": "bitwarden",
-    "name": "Bitwarden",
-    "publisherName": "Bitwarden Inc.",
-    "categoryId": "everyday-utilities",
-    "taskId": "sync-passwords-vault",
-    "taskLabel": "Manage passwords and passkeys across devices",
-    "spdx": "GPL-3.0-only",
-    "websiteUrl": "https://bitwarden.com",
-    "sourceUrl": "https://github.com/bitwarden/clients",
-    "summary": "Open-source password, passkey, and secrets manager for Windows.",
-    "description": "Bitwarden is an open-source password manager that stores sensitive information such as website credentials, passkeys, and secure notes in an encrypted vault with Windows Hello support.",
-    "version": "2026.10.4",
-    "publishedAt": "2026-11-05T17:02:34Z",
-    "installerUrl": "https://github.com/bitwarden/clients/releases/download/desktop-v2026.10.4/Bitwarden-Installer-2026.10.4.exe",
-    "installerFilename": "Bitwarden-Installer-2026.10.4.exe",
-    "installerSize": 734224,
-    "sha256": "aaedfeaf73511b9095a5009454bb037a053c9a60e7c5ed23717b7b6047193a13",
-    "licenseUrl": "https://github.com/bitwarden/clients/blob/main/LICENSE.txt"
-  },
-  {
     "id": "app_cryptomator",
     "slug": "cryptomator",
     "name": "Cryptomator",
