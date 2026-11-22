@@ -7,6 +7,9 @@
     "verify": "node scripts/verify-hashes.mjs",
     "verify:update": "node scripts/verify-hashes.mjs --update-manifest"
   },
+  "engines": {
+    "node": ">=26"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CinderLuna/cinderluna-catalog.git"
