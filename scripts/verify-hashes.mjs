@@ -85,86 +85,105 @@ async function verifyApp(app) {
   console.log(`\n[VERIFY] Checking ${app.name} (${app.slug})...`);
   console.log(`         URL: ${app.installerUrl}`);
 
-  try {
-    const res = await fetchWithRetry(app.installerUrl);
+  let lastError;
+  let finalResponseUrl = app.installerUrl;
+  const MAX_STREAM_ATTEMPTS = 3;
 
-    if (!res.body) {
-      throw new Error("No response body received");
-    }
+  for (let attempt = 1; attempt <= MAX_STREAM_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetchWithRetry(app.installerUrl);
 
-    const { size, sha256 } = await hashStream(Readable.fromWeb(res.body));
-    const elapsedMs = Date.now() - startTime;
+      if (!res.body) {
+        throw new Error("No response body received");
+      }
 
-    const matchesExpected =
-      app.sha256 && app.sha256.toLowerCase() === sha256.toLowerCase();
-    const sizeMatches = app.installerSize && app.installerSize === size;
+      finalResponseUrl = res.url;
+      const { size, sha256 } = await hashStream(Readable.fromWeb(res.body));
+      const elapsedMs = Date.now() - startTime;
 
-    console.log(`         Resolved: ${size} bytes in ${(elapsedMs / 1000).toFixed(2)}s`);
-    console.log(`         SHA-256:  ${sha256}`);
+      const matchesExpected =
+        app.sha256 && app.sha256.toLowerCase() === sha256.toLowerCase();
+      const sizeMatches = app.installerSize && app.installerSize === size;
 
-    if (matchesExpected && sizeMatches) {
-      console.log(`         ✓ Checksum & size verified exact match.`);
-    } else if (matchesExpected) {
-      console.log(`         ! Checksum matches, size updated (${app.installerSize} -> ${size})`);
-    } else {
-      console.log(`         ! Hash differs from previous recorded hash.`);
-    }
+      console.log(`         Resolved: ${size} bytes in ${(elapsedMs / 1000).toFixed(2)}s`);
+      console.log(`         SHA-256:  ${sha256}`);
 
-    return {
-      slug: app.slug,
-      name: app.name,
-      version: app.version,
-      status: "success",
-      installerUrl: app.installerUrl,
-      finalUrl: res.url,
-      expectedSize: app.installerSize,
-      actualSize: size,
-      expectedSha256: app.sha256,
-      actualSha256: sha256,
-      hashMatch: matchesExpected,
-      sizeMatch: sizeMatches,
-      elapsedMs,
-      verifiedAt: new Date().toISOString(),
-    };
-  } catch (err) {
-    if (
-      (err.message.includes("HTTP 403") || err.message.includes("HTTP 401")) &&
-      app.sha256 &&
-      app.installerSize
-    ) {
-      console.warn(
-        `         ⚠ Upstream WAF datacenter challenge (${err.message}). Retaining verified SHA-256 and size.`
-      );
+      if (matchesExpected && sizeMatches) {
+        console.log(`         ✓ Checksum & size verified exact match.`);
+      } else if (matchesExpected) {
+        console.log(`         ! Checksum matches, size updated (${app.installerSize} -> ${size})`);
+      } else {
+        console.log(`         ! Hash differs from previous recorded hash.`);
+      }
+
       return {
         slug: app.slug,
         name: app.name,
         version: app.version,
         status: "success",
         installerUrl: app.installerUrl,
-        finalUrl: app.installerUrl,
+        finalUrl: finalResponseUrl,
         expectedSize: app.installerSize,
-        actualSize: app.installerSize,
+        actualSize: size,
         expectedSha256: app.sha256,
-        actualSha256: app.sha256,
-        hashMatch: true,
-        sizeMatch: true,
-        notice: "Retained verified hash (upstream datacenter WAF block)",
-        elapsedMs: Date.now() - startTime,
+        actualSha256: sha256,
+        hashMatch: matchesExpected,
+        sizeMatch: sizeMatches,
+        elapsedMs,
         verifiedAt: new Date().toISOString(),
       };
+    } catch (err) {
+      lastError = err;
+      if (err.message.includes("HTTP 404") || err.message.includes("HTTP 401")) {
+        break;
+      }
+      if (attempt < MAX_STREAM_ATTEMPTS) {
+        console.warn(
+          `         ⚠ Stream attempt ${attempt}/${MAX_STREAM_ATTEMPTS} dropped (${err.message}). Retrying in 3s...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+      }
     }
+  }
 
-    console.error(`         ✗ Verification failed: ${err.message}`);
+  const err = lastError;
+  if (
+    (err.message.includes("HTTP 403") || err.message.includes("HTTP 401")) &&
+    app.sha256 &&
+    app.installerSize
+  ) {
+    console.warn(
+      `         ⚠ Upstream WAF datacenter challenge (${err.message}). Retaining verified SHA-256 and size.`
+    );
     return {
       slug: app.slug,
       name: app.name,
       version: app.version,
-      status: "failed",
-      error: err.message,
+      status: "success",
       installerUrl: app.installerUrl,
+      finalUrl: app.installerUrl,
+      expectedSize: app.installerSize,
+      actualSize: app.installerSize,
+      expectedSha256: app.sha256,
+      actualSha256: app.sha256,
+      hashMatch: true,
+      sizeMatch: true,
+      notice: "Retained verified hash (upstream datacenter WAF block)",
+      elapsedMs: Date.now() - startTime,
       verifiedAt: new Date().toISOString(),
     };
   }
+
+  console.error(`         ✗ Verification failed: ${err.message}`);
+  return {
+    slug: app.slug,
+    name: app.name,
+    version: app.version,
+    status: "failed",
+    error: err.message,
+    installerUrl: app.installerUrl,
+    verifiedAt: new Date().toISOString(),
+  };
 }
 
 async function main() {
